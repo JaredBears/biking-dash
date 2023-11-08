@@ -1,0 +1,27 @@
+<%= form_with(model: reported_bike) do |form| %>
+  <% if reported_bike.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(reported_bike.errors.count, "error") %> prohibited this reported_bike from being saved:</h2>
+
+      <ul>
+        <% reported_bike.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :bike_id, style: "display: block" %>
+    <%= form.text_field :bike_id %>
+  </div>
+
+  <div>
+    <%= form.label :report_id, style: "display: block" %>
+    <%= form.text_field :report_id %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

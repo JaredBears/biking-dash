@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_08_210415) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_08_221208) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
@@ -40,5 +41,65 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_08_210415) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
   end
+  
+  create_table "bikes", force: :cascade do |t|
+    t.integer "owner_id", null: false
+    t.integer "bike_index_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "cars", force: :cascade do |t|
+    t.string "style"
+    t.citext "plate", null: false
+    t.string "color"
+    t.string "make"
+    t.string "model"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["plate"], name: "index_cars_on_plate", unique: true
+  end
+
+  create_table "images", force: :cascade do |t|
+    t.string "image_url", default: "http://placehold.it/300x300", null: false
+    t.integer "ibb_id"
+    t.integer "report_id"
+    t.integer "owner_id"
+    t.integer "bike_id"
+    t.integer "car_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "reported_bikes", force: :cascade do |t|
+    t.integer "bike_id", null: false
+    t.integer "report_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bike_id", "report_id"], name: "index_reported_bikes_on_bike_id_and_report_id", unique: true
+  end
+
+  create_table "reported_cars", force: :cascade do |t|
+    t.integer "car_id", null: false
+    t.integer "report_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["car_id", "report_id"], name: "index_reported_cars_on_car_id_and_report_id", unique: true
+  end
+
+  create_table "reports", force: :cascade do |t|
+    t.integer "reporter_id", null: false
+    t.string "category", null: false
+    t.string "address_street"
+    t.string "address_city"
+    t.string "address_state"
+    t.string "address_zip"
+    t.string "lat"
+    t.string "lng"
+    t.string "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
 
 end

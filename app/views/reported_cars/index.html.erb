@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Reported cars</h1>
+
+<div id="reported_cars">
+  <% @reported_cars.each do |reported_car| %>
+    <%= render reported_car %>
+    <p>
+      <%= link_to "Show this reported car", reported_car %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New reported car", new_reported_car_path %>
