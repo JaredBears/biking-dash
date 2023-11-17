@@ -40,7 +40,6 @@ As an app administrator, I want to be able to:
 - user_type
 - lat
 - lng
-- avatar_url
 
 ### Bikes
 - id
@@ -89,15 +88,6 @@ As an app administrator, I want to be able to:
 - text
 - parent_id *self-fk* (if blank, post is main post.  If filled in, post is reply)
 
-### Images
-- id
-- ibb_id *api reference*
-- report_id *fk*
-- bike_id *fk*
-- car_id *fk*
-- post_id *fk*
-- owner_id *fk*
-- name
-- caption
-
-(For images, only the owner_id is required foreign key, each other fk is optional depending on what it is an image of, at least one must be filled in)
+### ActiveStorage
+- Users has_one_attached :avatar
+- Bikes, Cars, and Posts each have_many_attached :images
