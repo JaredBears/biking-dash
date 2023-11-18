@@ -95,6 +95,7 @@ group :development do
   gem "rufo"
   gem "specs_to_readme"
   gem "web_git"
+  gem "rails_live_reload"
 end
 
 group :development, :test do
