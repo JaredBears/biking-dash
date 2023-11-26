@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_08_221208) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_26_222018) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
@@ -35,17 +35,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_08_221208) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["plate"], name: "index_cars_on_plate", unique: true
-  end
-
-  create_table "images", force: :cascade do |t|
-    t.string "image_url", default: "http://placehold.it/300x300", null: false
-    t.integer "ibb_id"
-    t.integer "report_id"
-    t.integer "owner_id"
-    t.integer "bike_id"
-    t.integer "car_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "reported_bikes", force: :cascade do |t|
@@ -76,6 +65,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_08_221208) do
     t.string "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "blu_id"
+    t.boolean "complete_blu"
   end
 
   create_table "users", force: :cascade do |t|
