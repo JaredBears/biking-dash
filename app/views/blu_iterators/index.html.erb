@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Blu iterators</h1>
+
+<div id="blu_iterators">
+  <% @blu_iterators.each do |blu_iterator| %>
+    <%= render blu_iterator %>
+    <p>
+      <%= link_to "Show this blu iterator", blu_iterator %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New blu iterator", new_blu_iterator_path %>
