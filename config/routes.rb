@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :blu_iterators
 
   # get 'pages/home'
   # get 'pages/about'
