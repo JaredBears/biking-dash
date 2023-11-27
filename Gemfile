@@ -3,6 +3,9 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.2.1"
 
+# add whenever gem for cron jobs
+gem "whenever", require: false
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.4", ">= 7.0.4.3"
 
@@ -77,10 +80,8 @@ gem "appdev_support"
 gem "awesome_print"
 gem "devise"       # to be removed
 gem "dotenv-rails"
-gem "faker"
 gem "htmlbeautifier"
 gem "http"
-gem "sqlite3", "~> 1.4"
 gem "table_print"
 
 group :development do
@@ -96,6 +97,7 @@ group :development do
   gem "specs_to_readme"
   gem "web_git"
   gem "rails_live_reload"
+  gem "faker"
 end
 
 group :development, :test do
