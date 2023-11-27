@@ -21,6 +21,6 @@ class Report < ApplicationRecord
   validates :category, presence: true
   validates :reporter_id, presence: true
   validates :complete_blu, inclusion: { in: [ true, false ] }
-
+  
   has_many_attached :images
 end
