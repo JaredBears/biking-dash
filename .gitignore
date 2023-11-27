@@ -37,6 +37,5 @@ examples.txt
 # Ignore dotenv files
 /.env*
 
-# Un-ignore SQLite3 db
-!/db/*.sqlite3
-!/db/*.sqlite3-journal
+# ignore gcs key
+/config/gcs_key.json

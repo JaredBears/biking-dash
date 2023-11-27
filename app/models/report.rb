@@ -13,7 +13,9 @@
 #  lng            :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  blu_id         :integer
 #  reporter_id    :integer          not null
 #
 class Report < ApplicationRecord
+  has_many_attached :images
 end

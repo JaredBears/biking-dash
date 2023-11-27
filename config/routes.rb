@@ -11,7 +11,6 @@ Rails.application.routes.draw do
   resources :reported_cars
   resources :reported_bikes
   resources :reports
-  resources :images
   resources :cars
   resources :bikes
 
