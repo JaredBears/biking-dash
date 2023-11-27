@@ -36,6 +36,10 @@ task({ :import_blu_data => :environment }) do
   pp "there are #{new_count} new reports"
   uncompleted = Report.where(complete_blu: false).order(blu_id: :asc)
   pp "there are #{uncompleted.count} uncomplete reports"
+  if uncompleted.count == 0
+    pp "there are no uncomplete reports"
+    exit
+  end
   starting = uncompleted.first.blu_id
 
   continue = true
