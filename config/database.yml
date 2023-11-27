@@ -83,4 +83,4 @@ production:
   <<: *default
   database: bike_dash_production
   username: bike_dash
-  password: <%= ENV["BIKE_DASH_DATABASE_PASSWORD"] %>
+  url: <%= Rails.application.credentials.db_url %>
