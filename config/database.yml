@@ -79,8 +79,16 @@ test:
 # Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
 # for a full overview on how database connection configuration can be specified.
 #
+# Render:
+#   <<: *default
+#   database: bike_dash_production
+#   username: bike_dash
+#   url: <%= Rails.application.credentials.db_url %>
+
+#Cloud SQL:
 production:
   <<: *default
   database: bike_dash_production
   username: bike_dash
-  url: <%= Rails.application.credentials.db_url %>
+  password: <%= Rails.application.credentials.db_password %>
+  socket: chicago-bike-dashboard:us-central1:chi-bike-dash

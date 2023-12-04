@@ -10,3 +10,15 @@ cloudinary_dev:
 cloudinary_prod:
   service: Cloudinary
   folder: images
+
+google_dev:
+  service: GCS
+  project: chicago-bike-dashboard
+  credentials: 
+  bucket: chicago-bike-dashboard-cbd-images_dev
+
+google_prod:
+  service: GCS
+  project: chicago-bike-dashboard
+  credentials: 
+  bucket: chicago-bike-dashboard-cbd-images
