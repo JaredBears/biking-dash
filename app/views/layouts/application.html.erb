@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html>
-  
+
   <head>
     <title>Chicago Bike Dashboard</title>
-    
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
 
-		<%= render partial: "shared/cdn_assets" %>
+    <%= render partial: "shared/cdn_assets" %>
   </head>
 
   <body>
-		<%= render partial: "shared/navbar" %>
+    <%= render partial: "shared/navbar" %>
     <%= yield %>
-		<%= render partial: "shared/footer" %>
+    <%= render partial: "shared/mapbox" %>
+    <%= render partial: "shared/footer" %>
   </body>
-  
+
 </html>

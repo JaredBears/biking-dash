@@ -20,4 +20,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "pages#home"
 
+  post "/pathfinder/findRoute", to: "pathfinder#findRoute"
+  get "/pathfinder", to: "pathfinder#show"
+
 end

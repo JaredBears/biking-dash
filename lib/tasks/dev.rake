@@ -8,6 +8,16 @@ end
 
 desc "Import data from the BLU API and WHU API and add it to the database"
 task({ :import_blu_data => :environment }) do
+<<<<<<< Updated upstream
+  blu = BluController.new
+  blu.import_blu_data
+end
+
+desc "Test the Map Routing API"
+task({ :test_routing => :environment }) do
+  pathfinder = PathfinderController.new
+  pathfinder.findRoute("6166 N Sheridan Rd, Chicago, IL 60660", "200 S Wacker Dr, Chicago, IL 60606")
+=======
   initial_count = Report.count
   uri = URI("https://whitehouseuprising.github.io/maps2/data/chicago/all.json")
   response = Net::HTTP.get(uri)
@@ -69,13 +79,15 @@ task({ :import_blu_data => :environment }) do
       if Report.exists?(blu_id: report["id"])
         r = Report.find_by(blu_id: report["id"])
         if !r.complete_blu
-          report["images"].each do |image|
-            if image[-3..-1] == "png"
-              next
+          if Rails.env.production?
+            report["images"].each do |image|
+              if image[-3..-1] == "png"
+                next
+              end
+              pp "adding image #{image} to report #{report["id"]}..."
+              r.images.attach(io: URI.open(image), filename: "#{report["id"]}")
+              sleep(rand(1..5))
             end
-            pp "adding image #{image} to report #{report["id"]}..."
-            r.images.attach(io: URI.open(image), filename: "#{report["id"]}")
-            sleep(rand(1..5))
           end
           r.update(
             complete_blu: true,
@@ -90,4 +102,5 @@ task({ :import_blu_data => :environment }) do
     sleep(rand(1..5))
   end
   pp "there are #{Report.where(complete_blu: true).count} complete reports"
+>>>>>>> Stashed changes
 end
