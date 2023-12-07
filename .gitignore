@@ -39,3 +39,6 @@ examples.txt
 
 # ignore gcs key
 /config/gcs_key.json
+
+# ignore .DS_Store
+.DS_Store

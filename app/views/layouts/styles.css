@@ -154,3 +154,5 @@ h1, p {
   height: 80em;
   top: 30em;
 }
+
+#map { height: 450px; }

@@ -1,7 +1,7 @@
-window.Report = createReactClass({
+window.Home = createReactClass({
   render: function() {
     return (
-      <div className="report">
+      <div className="page">
         <h1>{this.props.title}</h1>
         <p>{this.props.content}</p>
       </div>

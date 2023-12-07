@@ -1,0 +1,23 @@
+<div id="map" style="width: 600px; height: 400px;"></div>
+<script>
+  const map = L.map('map').setView([41.878, -87.630], 13);
+	const popup = L.popup();
+
+	const marker = L.icon({
+		iconUrl: '../assets/map_marker.png',
+		popupAnchor: [-3, -76]
+	});
+
+  const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  	maxZoom: 19,
+  	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(map);
+		
+	//displays reports from the last day
+
+	<% Report.where("created_at >= ?", 1.day.ago).each do |report| %>
+		L.marker([<%= report.lat %>, <%= report.lng %>], {icon: marker}).addTo(map)
+			.bindPopup("<%= report.category %>");
+	<% end %>
+
+</script>
