@@ -2,6 +2,7 @@ class PagesController < ApplicationController
   #skip_before_action :authenticate_user, only: [:home, :about, :contact, :terms, :privacy]
   
   def home
+    return
   end
 
   def about

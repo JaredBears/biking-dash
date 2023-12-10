@@ -1,35 +1,5 @@
 <div id="<%= dom_id report %>">
   <p>
-    <strong>Reporter:</strong>
-    <%= report.reporter_id %>
-  </p>
-
-  <p>
-    <strong>Category:</strong>
-    <%= report.category %>
-  </p>
-
-  <p>
-    <strong>Address street:</strong>
-    <%= report.address_street %>
-  </p>
-
-  <p>
-    <strong>Address city:</strong>
-    <%= report.address_city %>
-  </p>
-
-  <p>
-    <strong>Address state:</strong>
-    <%= report.address_state %>
-  </p>
-
-  <p>
-    <strong>Address zip:</strong>
-    <%= report.address_zip %>
-  </p>
-
-  <p>
     <strong>Lat:</strong>
     <%= report.lat %>
   </p>
@@ -40,13 +10,43 @@
   </p>
 
   <p>
-    <strong>Body:</strong>
-    <%= report.body %>
+    <strong>String:</strong>
+    <%= report.string %>
   </p>
 
   <p>
-    <% report.images.each do |image| %>
-      <%= image_tag(image) %>
-    <% end %>
+    <strong>Reporter:</strong>
+    <%= report.reporter_id %>
+  </p>
+
+  <p>
+    <strong>Address street:</strong>
+    <%= report.address_street %>
+  </p>
+
+  <p>
+    <strong>Address zip:</strong>
+    <%= report.address_zip %>
+  </p>
+
+  <p>
+    <strong>Blu:</strong>
+    <%= report.blu_id %>
+  </p>
+
+  <p>
+    <strong>Complete blu:</strong>
+    <%= report.complete_blu %>
+  </p>
+
+  <p>
+    <strong>Description:</strong>
+    <%= report.description %>
+  </p>
+
+  <p>
+    <strong>Category:</strong>
+    <%= report.category %>
+  </p>
 
 </div>

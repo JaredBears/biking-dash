@@ -12,36 +12,6 @@
   <% end %>
 
   <div>
-    <%= form.label :reporter_id, style: "display: block" %>
-    <%= form.text_field :reporter_id %>
-  </div>
-
-  <div>
-    <%= form.label :category, style: "display: block" %>
-    <%= form.text_field :category %>
-  </div>
-
-  <div>
-    <%= form.label :address_street, style: "display: block" %>
-    <%= form.text_field :address_street %>
-  </div>
-
-  <div>
-    <%= form.label :address_city, style: "display: block" %>
-    <%= form.text_field :address_city %>
-  </div>
-
-  <div>
-    <%= form.label :address_state, style: "display: block" %>
-    <%= form.text_field :address_state %>
-  </div>
-
-  <div>
-    <%= form.label :address_zip, style: "display: block" %>
-    <%= form.text_field :address_zip %>
-  </div>
-
-  <div>
     <%= form.label :lat, style: "display: block" %>
     <%= form.text_field :lat %>
   </div>
@@ -52,13 +22,43 @@
   </div>
 
   <div>
-    <%= form.label :body, style: "display: block" %>
-    <%= form.text_field :body %>
+    <%= form.label :string, style: "display: block" %>
+    <%= form.text_field :string %>
   </div>
 
   <div>
-    <%= form.label :images, style: "display: block" %>
-    <%= form.file_field :images, multiple: true %>
+    <%= form.label :reporter_id, style: "display: block" %>
+    <%= form.text_field :reporter_id %>
+  </div>
+
+  <div>
+    <%= form.label :address_street, style: "display: block" %>
+    <%= form.text_field :address_street %>
+  </div>
+
+  <div>
+    <%= form.label :address_zip, style: "display: block" %>
+    <%= form.text_field :address_zip %>
+  </div>
+
+  <div>
+    <%= form.label :blu_id, style: "display: block" %>
+    <%= form.text_field :blu_id %>
+  </div>
+
+  <div>
+    <%= form.label :complete_blu, style: "display: block" %>
+    <%= form.check_box :complete_blu %>
+  </div>
+
+  <div>
+    <%= form.label :description, style: "display: block" %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div>
+    <%= form.label :category, style: "display: block" %>
+    <%= form.text_field :category %>
   </div>
 
   <div>

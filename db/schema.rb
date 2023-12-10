@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_27_030328) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_07_214301) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
+  create_enum "category", ["Company Vehicle", "Municipal (city) Vehicle - includes USPS", "Other  (damaged lane", " snow", " debris", " pedestrian", " etc.)", "Construction", "Private Owner Vehicle", "Taxi / Uber / Livery / Lyft"]
   create_enum "user_type", ["user", "admin", "test"]
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -47,60 +48,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_27_030328) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "bikes", force: :cascade do |t|
-    t.integer "owner_id", null: false
-    t.integer "bike_index_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "blu_iterators", force: :cascade do |t|
-    t.string "iterator", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "cars", force: :cascade do |t|
-    t.string "style"
-    t.citext "plate", null: false
-    t.string "color"
-    t.string "make"
-    t.string "model"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["plate"], name: "index_cars_on_plate", unique: true
-  end
-
-  create_table "reported_bikes", force: :cascade do |t|
-    t.integer "bike_id", null: false
-    t.integer "report_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["bike_id", "report_id"], name: "index_reported_bikes_on_bike_id_and_report_id", unique: true
-  end
-
-  create_table "reported_cars", force: :cascade do |t|
-    t.integer "car_id", null: false
-    t.integer "report_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["car_id", "report_id"], name: "index_reported_cars_on_car_id_and_report_id", unique: true
-  end
-
   create_table "reports", force: :cascade do |t|
-    t.integer "reporter_id", null: false
-    t.string "category", null: false
-    t.string "address_street"
-    t.string "address_city"
-    t.string "address_state"
-    t.string "address_zip"
     t.string "lat"
     t.string "lng"
-    t.string "body"
+    t.bigint "reporter_id", null: false
+    t.string "address_street"
+    t.string "address_zip"
+    t.bigint "blu_id"
+    t.boolean "complete_blu", default: false
+    t.string "description"
+    t.enum "category", null: false, enum_type: "category"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "blu_id"
-    t.boolean "complete_blu"
   end
 
   create_table "users", force: :cascade do |t|

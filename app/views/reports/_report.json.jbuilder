@@ -1,2 +1,2 @@
-json.extract! report, :id, :reporter_id, :category, :address_street, :address_city, :address_state, :address_zip, :lat, :lng, :body, :created_at, :updated_at
+json.extract! report, :id, :lat, :lng, :string, :reporter_id, :address_street, :address_zip, :blu_id, :complete_blu, :description, :category, :created_at, :updated_at
 json.url report_url(report, format: :json)

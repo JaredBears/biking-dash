@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :reports
 
   # get 'pages/home'
   # get 'pages/about'
