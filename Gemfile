@@ -3,8 +3,6 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.2.1"
 
-# React Rails
-gem 'react-rails'
 
 # Add Cloudinary to upload images
 gem "cloudinary"
@@ -113,3 +111,5 @@ group :test do
   gem "rspec-html-matchers"
   gem "webmock"
 end
+
+gem "jsbundling-rails", "~> 1.2"

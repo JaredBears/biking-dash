@@ -4,8 +4,8 @@ Rails.application.routes.draw do
   # get 'pages/home'
   # get 'pages/about'
   # get 'pages/contact'
-  get 'pages/terms', as: 'terms'
-  get 'pages/privacy', as: 'privacy'
+  # get 'pages/terms', as: 'terms'
+  # get 'pages/privacy', as: 'privacy'
 
   # devise_for :users
 
@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "pages#home"
 
-  post "/pathfinder/findRoute", to: "pathfinder#findRoute"
-  get "/pathfinder", to: "pathfinder#show"
+  # post "/pathfinder/findRoute", to: "pathfinder#findRoute"
+  # get "/pathfinder", to: "pathfinder#show"
 
 end

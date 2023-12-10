@@ -3,6 +3,20 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@fontsource/roboto": "^5.0.8",
-    "@mui/material": "^5.14.20"
+    "@hotwired/stimulus": "^3.0.1",
+    "@mui/material": "^5.14.20",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.20.1"
+  },
+  "scripts": {
+    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds",
+    "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css"
+  },
+  "devDependencies": {
+    "esbuild": "0.19.9"
+  },
+  "externals": {
+    // bootstrap, hotwirestimulus, 
   }
 }
