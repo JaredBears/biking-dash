@@ -34,6 +34,7 @@ const Reports = (props) => {
         
       </Card>
     )
+  }
 }
 
 export default Reports;
