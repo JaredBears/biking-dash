@@ -8,7 +8,7 @@ end
 desc "Import data from the BLU API and WHU API and add it to the database"
 task({ :import_blu_data => :environment }) do
   blu = BluController.new
-  blu.import_blu_data
+  blu.import_data
 end
 
 desc "Test the Map Routing API"

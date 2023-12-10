@@ -1,4 +1,5 @@
 import { React, ReactComponent, useState } from "react";
+import { Card } from '@mui/material';
 
 const Reports = (props) => {
 
@@ -28,10 +29,11 @@ const Reports = (props) => {
 
   const renderReport = (report) => {
     return (
-      
+      <Card>
+        <h3>{report.id} : {report.category}</h3>
+        
+      </Card>
     )
-  }
-
 }
 
 export default Reports;

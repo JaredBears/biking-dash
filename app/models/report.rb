@@ -10,6 +10,8 @@
 #  description    :string
 #  lat            :string
 #  lng            :string
+#  neighborhood   :string
+#  suburb         :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  blu_id         :bigint

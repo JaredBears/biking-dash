@@ -1,88 +1,130 @@
 class BluController < ApplicationController
-  def import_blu_data
+  def initialize
+    @geo = GeoencoderController.new
+    @starting = 0
+    @ending = 0
+    @new_reports = {}
+  end
+
+  def import_data
     initial_count = Report.count
+    @starting = initial_count == 0 ? 62800 : Report.order(blu_id: :desc).first.blu_id
+    import_whu_data
+    import_blu_data
+    synchronize_data
+  end
+
+  private
+
+  def import_whu_data()
     uri = URI("https://whitehouseuprising.github.io/maps2/data/chicago/all.json")
     response = Net::HTTP.get(uri)
     json = JSON.parse(response)
-    r = nil
-    json.sort_by! { |report| report["properties"]["id"] }
-    starting = Report.count == 0 ? 62800 : Report.order(blu_id: :desc).first.blu_id
-    first_index = json.find_index { |report| report["properties"]["id"] == starting }
+
+    json.sort_by! { |report| report.dig("properties", "id") }
+    @ending = json.last.dig("properties", "id")
+
+    first_index = json.find_index { |report| report.dig("properties", "id") == @starting }
     json = json[first_index..-1]
     json.each do |report|
-      if !Report.exists?(blu_id: report["properties"]["id"])
-        r = Report.new(
-          blu_id: report["properties"]["id"],
-          reporter_id: 1,
-          category: report["properties"]["obstruction"],
-          lat: report["geometry"]["coordinates"][1],
-          lng: report["geometry"]["coordinates"][0],
-          complete_blu: false,
-        )
-        r.save
-      end
-      r = nil
+      pp "adding report #{[report.dig("properties", "id")]} to new_reports..."
+      @new_reports[report.dig("properties", "id")] = {
+        blu_id: report.dig("properties", "id"),
+        category: report.dig("properties", "category"),
+        lat: report.dig("geometry", "coordinates")[1],
+        lng: report.dig("geometry", "coordinates")[0],
+      }
+      pp @new_reports[report.dig("properties", "id")]
     end
+    return 0
+  end
 
-    pp "there are #{Report.count} reports"
-    new_count = Report.count - initial_count
-    pp "there are #{new_count} new reports"
-    uncompleted = Report.where(complete_blu: false).order(blu_id: :asc)
-    if uncompleted.count == 0
-      pp "there are no incomplete reports"
-      exit
-    end
-
-    pp "there are #{uncompleted.count} incomplete reports"
-
-    starting = uncompleted.first.blu_id
+  def import_blu_data
 
     continue = true
-    iterator = new_count == 0 && BluIterator.count > 0 ? BluIterator.last.iterator : ""
+
+    iterator = ""
+
+    pp "start loop"
 
     while continue
       uri = URI("https://feed.bikelaneuprising.com/api/feed?after=#{iterator}")
       response = Net::HTTP.get(uri)
       json = JSON.parse(response)
-      pp iterator
+      
+      #If I've hit the end of the data, break out of the loop
       if iterator == json["iterator"]
         continue = false
         break
       end
       iterator = json["iterator"]
-      if BluIterator.exists?(iterator: iterator)
-        next
-      end
-      json["data"].each do |report|
-        if report["id"].to_i < starting
+
+      json["data"].each do |blu_report|
+        id = blu_report["id"].to_i
+        curr_report = @new_reports[id]
+
+        if id < @starting
           continue = false
           break
+        elsif curr_report.nil?
+          next
         end
-        if Report.exists?(blu_id: report["id"])
-          r = Report.find_by(blu_id: report["id"])
-          if !r.complete_blu
-            if Rails.env.production?
-              report["images"].each do |image|
-                if image[-3..-1] == "png"
-                  next
-                end
-                pp "adding image #{image} to report #{report["id"]}..."
-                r.images.attach(io: URI.open(image), filename: "#{report["id"]}")
-                sleep(rand(1..5))
-              end
-            end
-            r.update(
-              complete_blu: true,
-              created_at: DateTime.strptime(report["dateReceived"], "%Y-%m-%dT%H:%M:%S.%LZ"),
-            )
-            r.save
-          end
-        end
-        r = nil
+
+        pp "report #{id} does exist"
+        
+        pp curr_report
+
+        address_info = @geo.reverse_geo(curr_report[:lat], curr_report[:lng])
+
+        pp "updating report #{id}..."
+
+        pp address_info
+
+        curr_report.merge!({
+          created_at: DateTime.strptime(blu_report["dateReceived"], "%Y-%m-%dT%H:%M:%S.%LZ"),
+          address_street: "#{address_info["house_number"]} #{address_info["road"]}",
+          address_zip: address_info["postcode"],
+          neighborhood: address_info["neighbourhood"],
+          suburb: address_info["suburb"],
+          images: blu_report["images"],
+        })
+        pp curr_report
+        sleep(rand(1..3))
       end
-      BluIterator.create(iterator: iterator)
-      sleep(rand(1..5))
+      sleep(1)
     end
-    pp "there are #{Report.where(complete_blu: true).count} complete reports"
+  end
+
+  def synchronize_data
+    @starting..@ending.each do |id|
+      if @new_reports[id] == nil
+        next
+      end
+      pp "Syncing blu_report #{id}..."
+      r = Report.new(
+        blu_id: @new_reports[id][:blu_id],
+        category: @new_reports[id][:category],
+        lat: @new_reports[id][:lat],
+        lng: @new_reports[id][:lng],
+        created_at: @new_reports[id][:created_at],
+        address_street: @new_reports[id][:address_street],
+        address_zip: @new_reports[id][:address_zip],
+        neighborhood: @new_reports[id][:neighborhood],
+        suburb: @new_reports[id][:suburb],
+        reporter_id: 1,
+      )
+      if Rails.env.production?
+        @new_reports[id]["images"].each do |image|
+          if image[-3..-1] == "png"
+            next
+          end
+          pp "adding image #{image} to report #{r.id}..."
+          r.images.attach(io: URI.open(image), filename: "#{r.id}")
+          sleep(rand(1..5))
+        end
+      end
+      r.save
+      pp Report.find(r.id)
+    end
   end
 end
