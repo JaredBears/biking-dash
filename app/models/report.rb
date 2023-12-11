@@ -26,4 +26,6 @@ class Report < ApplicationRecord
   validates :lon, presence: true
   validates :category, presence: true
   validates :reporter_id, presence: true
+
+  has_many_attached :images
 end

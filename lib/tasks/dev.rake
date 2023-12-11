@@ -31,16 +31,16 @@ namespace :db_reports do
         reporter_id: report["reporter_id"],
         id: report["id"]
       )
-      # if report["images"].present? && Rails.env.production?
-      #   report["images"].each do |image|
-      #     if image[-3..-1] == "png"
-      #       next
-      #     end
-      #     pp "adding image #{image} to report #{r.id}..."
-      #     r.images.attach(io: URI.open(image), filename: "#{r.id}")
-      #     sleep(rand(1..5))
-      #   end
-      # end
+      if report["images"].present?
+        report["images"].each do |image|
+          if image[-3..-1] == "png"
+            next
+          end
+          pp "adding image #{image} to report #{r.id}..."
+          r.images.attach(io: URI.open(image), filename: "#{r.id}")
+          sleep(rand(1..5))
+        end
+      end
       r.save!
     end
   end

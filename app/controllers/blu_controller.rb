@@ -133,23 +133,15 @@ class BluController < ApplicationController
         suburb: report[:suburb],
         reporter_id: report[:reporter_id],
       })
-      # try to save the report and if not successful, display the errors
-      pp r
-      r.errors.full_messages.each do |message|
-        pp message
-      end
-
-      if Rails.env.production?
-        report["images"].each do |image|
-          if image[-3..-1] == "png"
-            next
-          end
-          pp "adding image #{image} to report #{r.id}..."
-          r.images.attach(io: URI.open(image), filename: "#{r.id}")
-          sleep(rand(1..5))
+      report[:images].each do |image|
+        if image[-3..-1] == "png"
+          next
         end
+        pp "adding image #{image} to report #{r.id}..."
+        r.images.attach(io: URI.open(image), filename: "#{r.id}")
+        sleep(rand(1..5))
       end
-      r.save! 
+      r.save!
     end
   end
 end
