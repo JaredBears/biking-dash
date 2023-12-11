@@ -1,23 +1,21 @@
 Rails.application.routes.draw do
+  namespace :api do
+    namespace :v1 do
+      get 'reports/index'
+      post 'reports/create'
+      get '/show/:id', to: 'reports#show'
+      delete '/destroy/:id', to: 'reports#destroy'
+    end
+  end
 
-  # get 'pages/home'
-  # get 'pages/about'
-  # get 'pages/contact'
-  get 'pages/terms', as: 'terms'
-  get 'pages/privacy', as: 'privacy'
-
-  # devise_for :users
-
-  # resources :reported_cars
-  # resources :reported_bikes
-  # resources :reports
-  # resources :cars
-  # resources :bikes
-  # resources :blu_iterators
-
+  root 'homepage#index'
+  get '/*path' => 'homepage#index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Defines the root path route ("/")
-  root "pages#home"
+  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
+  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  get "up" => "rails/health#show", as: :rails_health_check
 
+  # Defines the root path route ("/")
+  # root "posts#index"
 end

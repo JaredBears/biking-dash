@@ -68,5 +68,6 @@
   },
   "files.associations": {
     "*.html.erb": "erb"
-  }
+  },
+  "git.ignoreLimitWarning": true
 }

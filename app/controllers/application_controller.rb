@@ -1,3 +1,4 @@
+require 'net/http'
+
 class ApplicationController < ActionController::Base
-  skip_forgery_protection
 end
