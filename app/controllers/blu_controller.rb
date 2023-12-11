@@ -8,7 +8,7 @@ class BluController < ApplicationController
 
   def import_data
     initial_count = Report.count
-    @starting = initial_count == 0 ? 1 : Report.order(blu_id: :desc).first.blu_id
+    @starting = initial_count == 0 ? 64368 : Report.order(blu_id: :desc).first.blu_id
     import_whu_data
     import_blu_data
     synchronize_data
