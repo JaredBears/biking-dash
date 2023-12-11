@@ -3,6 +3,8 @@ class Api::V1::ReportsController < ApplicationController
   before_action :set_geo, only: [:create]
   # permit params
 
+  include Rails.application.routes.url_helpers
+
 
   def index
     reports = Report.all.order(created_at: :desc).limit(20)
@@ -45,7 +47,23 @@ class Api::V1::ReportsController < ApplicationController
   def show
     pp params[:id]
     if @report
-      render json: @report
+      @images = []
+      @report.images.each do |image|
+        @images.push(rails_blob_path(image))
+      end
+      render json: {
+        "id": @report.id,
+        "category": @report.category,
+        "lat": @report.lat,
+        "lon": @report.lon,
+        "address_street": @report.address_street,
+        "address_zip": @report.address_zip,
+        "neighborhood": @report.neighborhood,
+        "suburb": @report.suburb,
+        "images": @images,
+        "reporter_id": @report.reporter_id,
+        "created_at": @report.created_at,
+  }
     else
       render json: @report.errors
     end

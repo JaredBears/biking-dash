@@ -37,7 +37,6 @@ const Report = () => {
         Home
       </Link>
       <div className="hero position-relative d-flex align-items-center justify-content-center">
-        {/* <img src={report.images[0]} alt={`${report.category} image`} className="img-fluid position-absolute" /> */}
         <div className="overlay bg-dark position-absolute" />
         <h1 className="display-4 position-relative text-white">
           {report.category}
