@@ -65,7 +65,7 @@ const Reports = () => {
         <div className="container py-5">
           <h1 className="display-4">Reports</h1>
           <p className="lead text-muted">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque
+            View the most recent reports below or create your own.
           </p>
         </div>
       </section>
