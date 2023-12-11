@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import MapBox from "./MapBox";
 
 const Report = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const [report, setReport] = useState({});
+  const [report, setReport] = useState([]);
 
   useEffect(() => {
     const url = `/api/v1/show/${params.id}`;
@@ -21,24 +22,28 @@ const Report = () => {
 
   return (
     <div className="">
-    <div className="hero position-relative d-flex align-items-center justify-content-center">
-      {/* <img src={report.images[0]} alt={`${report.category} image`} className="img-fluid position-absolute" /> */}
-      <div className="overlay bg-dark position-absolute" />
-      <h1 className="display-4 position-relative text-white">
-        {report.category}
-      </h1>
+      <div className="hero position-relative d-flex align-items-center justify-content-center">
+        {/* <img src={report.images[0]} alt={`${report.category} image`} className="img-fluid position-absolute" /> */}
+        <div className="overlay bg-dark position-absolute" />
+        <h1 className="display-4 position-relative text-white">
+          {report.category}
+        </h1>
+      </div>
+      <div classNßame="container py-5">
+        <ul>
+          <li>Category: {report.category}</li>
+          <li>Reported on: {report.created_at}</li>
+          {report.address_street && <li>Street Address: {report.address_street}</li>}
+          <li>Location: {report.lat}, {report.lon}</li>
+          <li>Description: {report.description}</li>
+        </ul>
+      </div>
+      <div className="container py-5">
+        <h3 className="mb-3">Map</h3>
+        <MapBox {...report} />
+      </div>
     </div>
-    <div className="container py-5">
-      <ul>
-        <li>Category: {report.category}</li>
-        <li>Reported on: {report.created_at}</li>
-        {report.address_street && <li>Street Address: {report.address_street}</li>}
-        <li>Location: {report.lat}, {report.lon}</li>
-        <li>Description: {report.description}</li>
-      </ul>
-    </div>
-  </div>
-  )
+  );
 };
 
 export default Report;
