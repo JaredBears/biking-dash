@@ -86,3 +86,5 @@ packages/react-devtools-timeline/dist
 !/app/assets/builds/.keep
 
 /node_modules
+
+*.dnu
