@@ -11,7 +11,7 @@ class CreateReports < ActiveRecord::Migration[7.1]
     create_enum :category, [
           "Company Vehicle",
           "Municipal (city) Vehicle - includes USPS",
-          "Other  (damaged lane, snow, debris, pedestrian, etc.)",
+          "Other  (damaged lane / snow / debris / pedestrian / etc.)",
           "Construction",
           "Private Owner Vehicle",
           "Taxi / Uber / Livery / Lyft",

@@ -7,7 +7,7 @@ const Report = () => {
   const [report, setReport] = useState({});
 
   useEffect(() => {
-    const url = `/api/v1/reports/${params.id}`;
+    const url = `/api/v1/report/${params.id}`;
     fetch(url)
       .then((data) => {
         if (data.ok) {
@@ -17,12 +17,13 @@ const Report = () => {
       })
       .then((data) => setReport(data))
       .catch(() => navigate("/reports"));
+      console.log(report)
     }, [params.id]);
 
     return (
       <div className="">
         <div className="hero position-relative d-flex align-items-center justify-content-center">
-          <img src={report.images[0]} alt={`${report.category} image`} className="img-fluid position-absolute" />
+          {/* <img src={report.images[0]} alt={`${report.category} image`} className="img-fluid position-absolute" /> */}
           <div className="overlay bg-dark position-absolute" />
           <h1 className="display-4 position-relative text-white">
             {report.category}
@@ -32,7 +33,7 @@ const Report = () => {
           <ul>
             <li>Category: {report.category}</li>
             <li>Reported on: {report.created_at}</li>
-            <li>Location: {report.location}</li>
+            <li>Location: {report.lat}, {report.lon}</li>
             <li>Description: {report.description}</li>
           </ul>
         </div>

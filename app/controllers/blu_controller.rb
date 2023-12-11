@@ -8,10 +8,10 @@ class BluController < ApplicationController
 
   def import_data
     initial_count = Report.count
-    @starting = initial_count == 0 ? 62800 : Report.order(blu_id: :desc).first.blu_id
+    @starting = initial_count == 0 ? 1 : Report.order(blu_id: :desc).first.blu_id
     import_whu_data
     import_blu_data
-    synchronize_data
+    # synchronize_data
   end
 
   private
@@ -28,11 +28,14 @@ class BluController < ApplicationController
     json = json[first_index..-1]
     json.each do |report|
       pp "adding report #{[report.dig("properties", "id")]} to new_reports..."
+      if report.dig("properties", "obstruction")[0..4] == "Other"
+        report.dig("properties", "obstruction")[0..4] = "Other  (damaged lane / snow / debris / pedestrian / etc.)"
+      end
       @new_reports[report.dig("properties", "id")] = {
         blu_id: report.dig("properties", "id"),
-        category: report.dig("properties", "category"),
+        category: report.dig("properties", "obstruction"),
         lat: report.dig("geometry", "coordinates")[1],
-        lng: report.dig("geometry", "coordinates")[0],
+        lon: report.dig("geometry", "coordinates")[0],
       }
       pp @new_reports[report.dig("properties", "id")]
     end
@@ -74,11 +77,20 @@ class BluController < ApplicationController
         
         pp curr_report
 
-        address_info = @geo.reverse_geo(curr_report[:lat], curr_report[:lng])
+        address_info = @geo.reverse_geo(curr_report[:lat], curr_report[:lon])
 
         pp "updating report #{id}..."
 
         pp address_info
+        if address_info.nil?
+          address_info = {
+            "house_number" => "",
+            "road" => "",
+            "postcode" => "",
+            "neighbourhood" => "",
+            "suburb" => "",
+          }
+        end
 
         curr_report.merge!({
           created_at: DateTime.strptime(blu_report["dateReceived"], "%Y-%m-%dT%H:%M:%S.%LZ"),
@@ -87,34 +99,42 @@ class BluController < ApplicationController
           neighborhood: address_info["neighbourhood"],
           suburb: address_info["suburb"],
           images: blu_report["images"],
+          reporter_id: 1,
         })
         pp curr_report
         sleep(rand(1..3))
       end
       sleep(1)
     end
+    if Rails.env.development?
+      # save @new_reports to a json file
+      pp "saving new_reports to json file..."
+      File.open("new_reports.json","w") do |f|
+        f.write(@new_reports.to_json)
+      end
+    end
   end
 
   def synchronize_data
-    @starting..@ending.each do |id|
-      if @new_reports[id] == nil
-        next
-      end
-      pp "Syncing blu_report #{id}..."
+    pp "synchronizing data..."
+    pp "starting at #{@starting} and ending at #{@ending}"
+    @new_reports.each do |blu_id, report|
+      pp report
+      pp "Syncing blu_report #{blu_id}..."
       r = Report.new(
-        blu_id: @new_reports[id][:blu_id],
-        category: @new_reports[id][:category],
-        lat: @new_reports[id][:lat],
-        lng: @new_reports[id][:lng],
-        created_at: @new_reports[id][:created_at],
-        address_street: @new_reports[id][:address_street],
-        address_zip: @new_reports[id][:address_zip],
-        neighborhood: @new_reports[id][:neighborhood],
-        suburb: @new_reports[id][:suburb],
-        reporter_id: 1,
+        blu_id: blu_id,
+        category: report[:category],
+        lat: report[:lat],
+        lon: report[:lon],
+        created_at: report[:created_at],
+        address_street: report[:address_street],
+        address_zip: report[:address_zip],
+        neighborhood: report[:neighborhood],
+        suburb: report[:suburb],
+        reporter_id: report[:reporter_id],
       )
       if Rails.env.production?
-        @new_reports[id]["images"].each do |image|
+        report["images"].each do |image|
           if image[-3..-1] == "png"
             next
           end
@@ -123,8 +143,7 @@ class BluController < ApplicationController
           sleep(rand(1..5))
         end
       end
-      r.save
-      pp Report.find(r.id)
+      r.save!
     end
   end
 end

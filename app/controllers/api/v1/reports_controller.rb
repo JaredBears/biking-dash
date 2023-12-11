@@ -2,7 +2,7 @@ class Api::V1::ReportsController < ApplicationController
   before_action :set_report, only: [:show, :destroy] 
 
   def index
-    reports = Report.all.order(created_at: :desc)
+    reports = Report.all.order(created_at: :desc).limit(20)
     render json: reports
   end
 
@@ -16,25 +16,26 @@ class Api::V1::ReportsController < ApplicationController
   end
 
   def show
-    if report
-      render json: report
+    pp params[:id]
+    if @report
+      render json: @report
     else
-      render json: report.errors
+      render json: @report.errors
     end
   end
 
   def destroy
-    report&.destroy
+    @report&.destroy
     render json: { message: 'Report deleted!' }
   end
 
   private
 
-  def recipe_params
-    params.permit(:address_street, :address_zip, :category, :description, :lat, :lon, :reporter_id)
+  def report_params
+    params.permit(:address_street, :address_zip, :category, :description, :lat, :lon, :reporter_id, :neighborhood, :suburb, :created_at)
   end
 
   def set_report
-    report = Report.find(params[:id])
+    @report = Report.find(params[:id])
   end
 end

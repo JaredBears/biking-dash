@@ -16,7 +16,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_10_215435) do
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
-  create_enum "category", ["Company Vehicle", "Municipal (city) Vehicle - includes USPS", "Other  (damaged lane", " snow", " debris", " pedestrian", " etc.)", "Construction", "Private Owner Vehicle", "Taxi / Uber / Livery / Lyft"]
+  create_enum "category", ["Company Vehicle", "Municipal (city) Vehicle - includes USPS", "Other  (damaged lane / snow / debris / pedestrian / etc.)", "Construction", "Private Owner Vehicle", "Taxi / Uber / Livery / Lyft"]
 
   create_table "reports", force: :cascade do |t|
     t.string "address_street"
