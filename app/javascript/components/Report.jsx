@@ -27,6 +27,15 @@ const Report = () => {
 
   return (
     <div className="">
+      <Link to="/reports" className="btn btn-link">
+        Back to Reports
+      </Link>
+      <Link to="/directions" className="btn btn-link">
+        Get Directions
+      </Link>
+      <Link to="/" className="btn btn-link">
+        Home
+      </Link>
       <div className="hero position-relative d-flex align-items-center justify-content-center">
         {/* <img src={report.images[0]} alt={`${report.category} image`} className="img-fluid position-absolute" /> */}
         <div className="overlay bg-dark position-absolute" />

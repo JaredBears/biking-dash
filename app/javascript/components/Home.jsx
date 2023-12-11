@@ -7,16 +7,20 @@ const Home = () => {
     <div className="jumbotron jumbotron-fluid bg-transparent">
       <div className="container secondary-color">
         <h1 className="display-4">Chicago Bike Dashboard</h1>
-        <p className="lead">
-          Coming Soon
-        </p>
         <hr className="my-4" />
         <Link
-          to="/"
+          to="/reports"
           className="btn btn-lg custom-button"
           role="button"
         >
-          Home
+          View Reports
+        </Link>
+        <Link
+          to="/directions"
+          className="btn btn-lg custom-button"
+          role="button"
+        >
+          Get Directions
         </Link>
       </div>
     </div>

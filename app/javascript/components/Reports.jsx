@@ -53,6 +53,14 @@ const Reports = () => {
 
   return (
     <div>
+      <div className="position-relative d-flex align-items-center justify-content-center">
+        <Link to="/" className="btn btn-link">
+          Home
+        </Link>
+        <Link to="/directions" className="btn btn-link">
+          Get Directions
+        </Link>
+      </div>
       <section className="jumbotron jumbotron-fluid text-center">
         <div className="container py-5">
           <h1 className="display-4">Reports</h1>
@@ -71,9 +79,6 @@ const Reports = () => {
           <div className="row">
             {reports.length > 0 ? allReports : noReport}
           </div>
-          <Link to="/" className="btn btn-link">
-            Home
-          </Link>
         </main>
       </div>
       <div className="container py-5">
