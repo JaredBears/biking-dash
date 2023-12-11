@@ -4,7 +4,7 @@ import Home from "../components/Home";
 import Reports from "../components/Reports";
 import Report from "../components/Report";
 import NewReport from "../components/NewReport";
-import MapBox from "../components/MapBox";
+import Directions from "../components/Directions";
 
 export default (
   <Router>
@@ -13,7 +13,7 @@ export default (
       <Route path="/report/:id" element={<Report />} />
       <Route path="/reports" element={<Reports />} />
       <Route path="/report/new" element={<NewReport />} />
-      <Route path="/map" element={<MapBox />} />
+      <Route path="/directions" element={<Directions />} />
     </Routes>
   </Router>
 );
