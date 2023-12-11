@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
 
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+
 const Report = () => {
   const params = useParams();
   const navigate = useNavigate();
@@ -42,7 +45,7 @@ const Report = () => {
           {report.category}
         </h1>
       </div>
-      <div classNßame="container py-5">
+      <div className="container py-5">
         <ul>
           <li>Category: {report.category}</li>
           <li>Reported on: {report.created_at}</li>
@@ -51,6 +54,24 @@ const Report = () => {
           <li>Description: {report.description}</li>
         </ul>
       </div>
+      <ImageList 
+        sx={{ width: 500, height: 150 }} 
+        cols={3} 
+        rowHeight={121}
+        variant="quilted"
+      >
+        {report.images && report.images.split('|').map((image_url) => (
+          <ImageListItem key={image_url}>
+            <img
+              src={image_url}
+              srcSet={`${image_url}?w=164&h=164&fit=crop&auto=format 1x,
+                ${image_url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+              alt={report.category}
+              loading="lazy"
+            />
+          </ImageListItem>
+        ))}
+      </ImageList>
       <div className="container py-5">
         <h3 className="mb-3">Map</h3>
         <GoogleMap
