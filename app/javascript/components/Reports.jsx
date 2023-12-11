@@ -11,7 +11,7 @@ const Reports = () => {
   };
 
   useEffect(() => {
-    const url = "/api/v1/reports/index";
+    const url = "/api/v1/reports/index/20";
     fetch(url)
       .then((data) => {
         if (data.ok) {

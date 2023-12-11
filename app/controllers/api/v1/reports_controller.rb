@@ -7,7 +7,11 @@ class Api::V1::ReportsController < ApplicationController
 
 
   def index
-    reports = Report.all.order(created_at: :desc).limit(20)
+    if params[:limit].nil? || params[:limit].to_i == 0
+      reports = Report.all.order(created_at: :desc)
+    else
+      reports = Report.all.order(created_at: :desc).limit(params[:limit])
+    end
     render json: reports.map { |report|
       {
         "id": report.id,
@@ -15,6 +19,7 @@ class Api::V1::ReportsController < ApplicationController
         "image": report.images[0].blob.attributes.slice("id").merge(url: url_for(report.images[0]))[:url],
         "lat": report.lat,
         "lon": report.lon,
+        "created_at": report.created_at,
       }
     }
   end

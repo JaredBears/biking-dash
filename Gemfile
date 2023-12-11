@@ -65,4 +65,6 @@ group :development do
   # gem "spring"
 
   gem "annotate"
+
+  gem "chartkick"
 end

@@ -5,6 +5,7 @@ import Reports from "../components/Reports";
 import Report from "../components/Report";
 import NewReport from "../components/NewReport";
 import Directions from "../components/Directions";
+import ReportsGraph from "../components/ReportsGraph";
 
 export default (
   <Router>
@@ -14,6 +15,7 @@ export default (
       <Route path="/reports" element={<Reports />} />
       <Route path="/report/new" element={<NewReport />} />
       <Route path="/directions" element={<Directions />} />
+      <Route path="/reports_graph" element={<ReportsGraph />} />
     </Routes>
   </Router>
 );
