@@ -1,6 +1,5 @@
 class CreateReports < ActiveRecord::Migration[7.1]
   def change
-    #create enum type for category:
     drop_table(:reports, if_exists: true)
     drop_table(:bikes, if_exists: true)
     drop_table(:cars, if_exists: true)
@@ -16,6 +15,7 @@ class CreateReports < ActiveRecord::Migration[7.1]
           "Private Owner Vehicle",
           "Taxi / Uber / Livery / Lyft",
         ]
+
     create_table :reports do |t|
       t.string :address_street
       t.string :address_zip
@@ -30,5 +30,7 @@ class CreateReports < ActiveRecord::Migration[7.1]
 
       t.timestamps
     end
+    add_index :reports, :blu_id
+    add_index :reports, :reporter_id
   end
 end

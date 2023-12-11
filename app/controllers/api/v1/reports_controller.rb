@@ -32,7 +32,7 @@ class Api::V1::ReportsController < ApplicationController
   private
 
   def report_params
-    params.permit(:address_street, :address_zip, :category, :description, :lat, :lon, :reporter_id, :neighborhood, :suburb, :created_at)
+    params.permit(:address_street, :address_zip, :category, :description, :lat, :lon, :reporter_id, :neighborhood, :suburb, :created_at, :id)
   end
 
   def set_report

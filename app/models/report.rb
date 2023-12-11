@@ -16,6 +16,11 @@
 #  blu_id         :bigint
 #  reporter_id    :bigint           not null
 #
+# Indexes
+#
+#  index_reports_on_blu_id       (blu_id)
+#  index_reports_on_reporter_id  (reporter_id)
+#
 class Report < ApplicationRecord
   validates :lat, presence: true
   validates :lon, presence: true

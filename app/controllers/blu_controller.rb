@@ -8,10 +8,10 @@ class BluController < ApplicationController
 
   def import_data
     initial_count = Report.count
-    @starting = initial_count == 0 ? 1 : Report.order(blu_id: :desc).first.blu_id
+    @starting = initial_count == 0 ? 64381 : Report.order(blu_id: :desc).first.blu_id
     import_whu_data
     import_blu_data
-    # synchronize_data
+    synchronize_data
   end
 
   private
@@ -121,7 +121,7 @@ class BluController < ApplicationController
     @new_reports.each do |blu_id, report|
       pp report
       pp "Syncing blu_report #{blu_id}..."
-      r = Report.new(
+      r = Report.create({
         blu_id: blu_id,
         category: report[:category],
         lat: report[:lat],
@@ -132,7 +132,13 @@ class BluController < ApplicationController
         neighborhood: report[:neighborhood],
         suburb: report[:suburb],
         reporter_id: report[:reporter_id],
-      )
+      })
+      # try to save the report and if not successful, display the errors
+      pp r
+      r.errors.full_messages.each do |message|
+        pp message
+      end
+
       if Rails.env.production?
         report["images"].each do |image|
           if image[-3..-1] == "png"
@@ -143,7 +149,7 @@ class BluController < ApplicationController
           sleep(rand(1..5))
         end
       end
-      r.save!
+      r.save! 
     end
   end
 end
