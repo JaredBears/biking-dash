@@ -5,13 +5,13 @@ class GeoencoderController < ApplicationController
     json = JSON.parse(response)
     coord = {
       lat: json[0]["lat"].to_f,
-      lng: json[0]["lon"].to_f,
+      lon: json[0]["lon"].to_f,
     }
     return coord
   end
 
-  def reverse_geo(lat, lng)
-    uri = URI("https://geocode.maps.co/reverse?lat=#{lat}&lon=#{lng}")
+  def reverse_geo(lat, lon)
+    uri = URI("https://geocode.maps.co/reverse?lat=#{lat}&lon=#{lon}")
     pp uri
     response = Net::HTTP.get(uri)
     json = JSON.parse(response)
