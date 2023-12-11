@@ -9,7 +9,7 @@ const NewReport = () => {
   const [lat, setLat] = useState("");
   const [lon, setLon] = useState("");
   const [description, setDescription] = useState("");
-  const [reporter_id, setReporterId] = useState("");
+  const [reporter_id, setReporterId] = useState(1);
 
   const stripHtmlEntities = (str) => {
     return String(str)
@@ -34,6 +34,15 @@ const NewReport = () => {
       description: stripHtmlEntities(description),
       reporter_id
     };
+    // if either lat or lon is filled in, then both must be filled in
+    // if neither is filled in, then the address must be filled in
+    if ((lat || lon) && !(lat && lon)) {
+      alert("Please fill in both latitude and longitude.");
+      return;
+    } else if (!(lat || lon) && !(address_street && address_zip)) {
+      alert("Please fill in either latitude and longitude or street address and zip code.");
+      return;
+    }
     const token = document.querySelector('meta[name="csrf-token"]').content;
     fetch(url, {
       method: "POST",
@@ -53,6 +62,21 @@ const NewReport = () => {
       .catch((err) => console.log(err.message));
   };
 
+  const getLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
+  }
+
+  const showPosition = (position) => {
+    setLat(position.coords.latitude);
+    setLon(position.coords.longitude);
+    document.getElementById("reportLat").value = position.coords.latitude;
+    document.getElementById("reportLon").value = position.coords.longitude;
+  }
+
   return (
     <div className="container mt-5">
       <div className="row">
@@ -61,6 +85,9 @@ const NewReport = () => {
             Add a new report to help your community!
           </h1>
           <form onSubmit={handleSubmit}>
+            <button type="button" className="btn custom-button" onClick={getLocation}>
+              Use Current Location
+            </button>
             <div className="form-group">
               <label htmlFor="reportCategory">Category</label>
               <select
@@ -135,7 +162,6 @@ const NewReport = () => {
               id="reportReporterId"
               className="form-control"
               value="1"
-              onChange={(event) => handleChanges(event, setReporterId)}
             />
             <button type="submit" className="btn custom-button mt-3">
               Create Report
