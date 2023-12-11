@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
 
 const Reports = () => {
   const navigate = useNavigate();
   const [reports, setReports] = useState([]);
+  const containerStyle = {
+    width: '75vw',
+    height: '75vh'
+  };
 
   useEffect(() => {
     const url = "/api/v1/reports/index";
@@ -39,6 +44,13 @@ const Reports = () => {
     </div>
   );
 
+  const allMarkers = reports.map((report, index) => (
+    <Marker
+      position={{ lat: report.lat, lng: report.lon }}
+      animation={2}
+    />
+  ));
+
   return (
     <div>
       <section className="jumbotron jumbotron-fluid text-center">
@@ -64,8 +76,19 @@ const Reports = () => {
           </Link>
         </main>
       </div>
+      <div className="container py-5">
+        <h3 className="mb-3">Map</h3>
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={{ lat: 41.881, lng: -87.623 }}
+          zoom={12}
+        >
+          { /* Child components, such as markers, info windows, etc. */}
+          {allMarkers}
+        </GoogleMap>
+      </div>
     </div>
-  )
-};
+  );
+}
 
 export default Reports;

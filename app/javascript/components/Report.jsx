@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import MapBox from "./MapBox";
+import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
 
 const Report = () => {
   const params = useParams();
   const navigate = useNavigate();
   const [report, setReport] = useState([]);
+
+  const containerStyle = {
+    width: '100vw',
+    height: '50vh'
+  };
 
   useEffect(() => {
     const url = `/api/v1/show/${params.id}`;
@@ -40,7 +45,17 @@ const Report = () => {
       </div>
       <div className="container py-5">
         <h3 className="mb-3">Map</h3>
-        <MapBox {...report} />
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={{ lat: report.lat, lng: report.lon }}
+          zoom={10}
+        >
+          { /* Child components, such as markers, info windows, etc. */}
+          <Marker
+            position={{ lat: report.lat, lng: report.lon }}
+            animation={2}
+          />
+        </GoogleMap>
       </div>
     </div>
   );
