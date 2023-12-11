@@ -32,6 +32,14 @@ const Reports = () => {
             View Report
           </Link>
         </div>
+        <img
+            src={report.image}
+            className="card-img-top"
+            alt={`${report.category} image`}
+            max-height="20px"
+            height="auto"
+            width="auto"
+          />
       </div>
     </div>
   ));

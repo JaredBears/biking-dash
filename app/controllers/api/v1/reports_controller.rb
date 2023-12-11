@@ -8,7 +8,15 @@ class Api::V1::ReportsController < ApplicationController
 
   def index
     reports = Report.all.order(created_at: :desc).limit(20)
-    render json: reports
+    render json: reports.map { |report|
+      {
+        "id": report.id,
+        "category": report.category,
+        "image": report.images[0].blob.attributes.slice("id").merge(url: url_for(report.images[0]))[:url],
+        "lat": report.lat,
+        "lon": report.lon,
+      }
+    }
   end
 
   def create
@@ -49,7 +57,7 @@ class Api::V1::ReportsController < ApplicationController
     if @report
       @images = []
       @report.images.each do |image|
-        @images.push(rails_blob_path(image))
+        @images.push(image.blob.attributes.slice("id").merge(url: url_for(image))[:url])
       end
       render json: {
         "id": @report.id,
@@ -60,7 +68,7 @@ class Api::V1::ReportsController < ApplicationController
         "address_zip": @report.address_zip,
         "neighborhood": @report.neighborhood,
         "suburb": @report.suburb,
-        "images": @images,
+        "images": @images.join("|"),
         "reporter_id": @report.reporter_id,
         "created_at": @report.created_at,
   }
