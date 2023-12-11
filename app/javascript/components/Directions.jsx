@@ -68,14 +68,14 @@ const Directions = () => {
     document.getElementById("origin").value = `${position.coords.latitude}, ${position.coords.longitude}`;
   }
 
-  // show a form to get the user's current location and their destination
-  // when the form is submitted, getDirections() will be called
-  // the directions will be displayed on the map
-  // the map will be centered on the user's current location
-  // the map will display all recent reports
-
   return (
     <div className="container py-5">
+      <Link to="/" className="btn btn-link">
+        Home
+      </Link>
+      <Link to="/reports" className="btn btn-link">
+        View Reports
+      </Link>
       <h3 className="mb-3">Map</h3>
       <div className="row">
         <div className="col-md-6">
