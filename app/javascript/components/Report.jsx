@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import MapBox from "./MapBox";
 
 const Report = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const [report, setReport] = useState({});
+  const [report, setReport] = useState([]);
 
   useEffect(() => {
     const url = `/api/v1/show/${params.id}`;
@@ -37,10 +38,10 @@ const Report = () => {
           <li>Description: {report.description}</li>
         </ul>
       </div>
-      {/* <div className="container py-5">
+      <div className="container py-5">
         <h3 className="mb-3">Map</h3>
         <MapBox {...report} />
-      </div> */}
+      </div>
     </div>
   );
 };
