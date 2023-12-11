@@ -17,7 +17,7 @@ const NewReport = () => {
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;");
   }
-
+  
   const handleChanges = (event, setFunction) => {
     setFunction(event.target.value);
   }
@@ -56,7 +56,7 @@ const NewReport = () => {
         if (data.ok) {
           return data.json();
         }
-        throw new Error("Network response was not ok.");
+        throw new Error("Network response not ok.");
       })
       .then((data) => navigate(`/report/${data.id}`))
       .catch((err) => console.log(err.message));
@@ -171,6 +171,6 @@ const NewReport = () => {
       </div>
     </div>
   );
-};
+};  
 
 export default NewReport;
