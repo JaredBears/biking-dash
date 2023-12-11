@@ -8,7 +8,7 @@ class BluController < ApplicationController
 
   def import_data
     initial_count = Report.count
-    @starting = initial_count == 0 ? 64368 : Report.order(blu_id: :desc).first.blu_id
+    @starting = initial_count == 0 ? 64319 : Report.order(blu_id: :desc).first.blu_id
     import_whu_data
     import_blu_data
     synchronize_data
@@ -29,7 +29,7 @@ class BluController < ApplicationController
     json.each do |report|
       pp "adding report #{[report.dig("properties", "id")]} to new_reports..."
       if report.dig("properties", "obstruction")[0..4] == "Other"
-        report.dig("properties", "obstruction")[0..4] = "Other  (damaged lane / snow / debris / pedestrian / etc.)"
+        report.dig("properties", "obstruction")[0..-1] = "Other  (damaged lane / snow / debris / pedestrian / etc.)"
       end
       @new_reports[report.dig("properties", "id")] = {
         blu_id: report.dig("properties", "id"),
