@@ -9,9 +9,9 @@ export default (
   <Router>
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/reports" element={<Reports />} />
-      <Route path="/report" element={<NewReport />} />
       <Route path="/report/:id" element={<Report />} />
+      <Route path="/reports" element={<Reports />} />
+      <Route path="/report/new" element={<NewReport />} />
     </Routes>
   </Router>
 );

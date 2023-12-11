@@ -34,7 +34,7 @@ const Reports = () => {
   const noReport = (
     <div className="vw-100 vh-50 d-flex align-items-center justify-content-center">
       <h4>
-        No reports yet. Why not <Link to="/new_report">create one</Link>
+        No reports yet. Why not <Link to="/report/new">create one</Link>
       </h4>
     </div>
   );
@@ -52,7 +52,7 @@ const Reports = () => {
       <div className="py-5">
         <main className="container">
           <div className="text-right mb-3">
-            <Link to="/report" className="btn custom-button">
+            <Link to="/report/new" className="btn custom-button">
               Create New Report
             </Link>
           </div>
