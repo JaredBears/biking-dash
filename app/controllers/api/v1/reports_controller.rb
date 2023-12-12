@@ -8,8 +8,6 @@ class Api::V1::ReportsController < ApplicationController
 
   def index
     reports = Report.all.order(created_at: :desc).limit(20)
-    pp reports
-    pp Report.find(31).images
     render json: reports.map { |report|
       {
         "id": report.id,
