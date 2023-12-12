@@ -8,11 +8,13 @@ class Api::V1::ReportsController < ApplicationController
 
   def index
     reports = Report.all.order(created_at: :desc).limit(20)
+    pp reports
+    pp Report.find(31).images
     render json: reports.map { |report|
       {
         "id": report.id,
         "category": report.category,
-        "image": report.images[0].blob.attributes.slice("id").merge(url: url_for(report.images[0]))[:url],
+        "image": report.images[0].nil? ? "" : report.images[0].blob.attributes.slice("id").merge(url: url_for(report.images[0]))[:url],
         "lat": report.lat,
         "lon": report.lon,
       }
