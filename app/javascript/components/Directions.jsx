@@ -20,7 +20,11 @@ const Directions = () => {
   };
 
   useEffect(() => {
-    const url = "/api/v1/reports/index";
+    fetchClosestReports("", "");
+  }, []);
+
+  const fetchClosestReports = (lat, lon) => {
+    const url = "/api/v1/reports/index/closest?lat=" + lat + "&lon=" + lon;
     fetch(url)
       .then((data) => {
         if (data.ok) {
@@ -30,7 +34,7 @@ const Directions = () => {
       })
       .then((data) => setReports(data))
       .catch(() => navigate("/"));
-  }, []);
+  }
 
   const getDirections = () => {
     directionsService.route({
@@ -56,7 +60,7 @@ const Directions = () => {
 
   const getLocation = () => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition);
+      navigator.geolocation.watchPosition(showPosition);
     } else {
       alert("Geolocation is not supported by this browser.");
     }
@@ -66,6 +70,11 @@ const Directions = () => {
     setOrigin(`${position.coords.latitude}, ${position.coords.longitude}`);
     setCenter({ lat: position.coords.latitude, lng: position.coords.longitude });
     document.getElementById("origin").value = `${position.coords.latitude}, ${position.coords.longitude}`;
+    if(document.getElementById("destination").value != "") {
+      getDirections();
+    } else {
+      document.getElementById("destination").focus();
+    }
   }
 
   return (

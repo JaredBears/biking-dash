@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       get 'reports/index'
       post 'reports/create'
+      get 'reports/index/closest?lat=:lat&lon=:lon', to: 'reports#index'
       get '/show/:id', to: 'reports#show'
       delete '/destroy/:id', to: 'reports#destroy'
     end

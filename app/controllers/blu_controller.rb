@@ -105,12 +105,12 @@ class BluController < ApplicationController
         sleep(rand(1..3))
       end
       sleep(1)
-    end
-    if Rails.env.development?
-      # save @new_reports to a json file
-      pp "saving new_reports to json file..."
-      File.open("new_reports.json","w") do |f|
-        f.write(@new_reports.to_json)
+      if Rails.env.development?
+        # save @new_reports to a json file
+        pp "saving new_reports to json file..."
+        File.open("new_reports.json","w") do |f|
+          f.write(@new_reports.to_json)
+        end
       end
     end
   end

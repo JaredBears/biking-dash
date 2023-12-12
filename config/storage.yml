@@ -10,3 +10,4 @@ cloudinary_dev:
 cloudinary_prod:
   service: Cloudinary
   folder: images
+  moderation: webpurify

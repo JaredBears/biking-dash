@@ -11,12 +11,19 @@ namespace :blu do
     blu = BluController.new
     blu.import_data
   end
+
+  desc "Continue with Blu Data"
+  task({ :blu_continue => :environment }) do
+    blu = BluController.new
+    blu.blu_continue
+  end
 end
 
 namespace :db_reports do
   desc "Import data from JSON file and add it to the database"
   task({ :import_data => :environment }) do
     json = JSON.parse(File.read("new_reports.json"))
+    json.delete("iterator")
     json.each do |id, report|
       r = Report.new(
         blu_id: report["blu_id"],
