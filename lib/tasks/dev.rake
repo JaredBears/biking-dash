@@ -36,8 +36,9 @@ namespace :db_reports do
         neighborhood: report["neighborhood"],
         suburb: report["suburb"],
         reporter_id: report["reporter_id"],
-        id: report["id"]
       )
+      pp r
+      r.save!
       if report["images"].present?
         report["images"].each do |image|
           if image[-3..-1] == "png"
