@@ -9,22 +9,28 @@ namespace :blu do
   desc "Import data from the BLU API and WHU API and add it to the database"
   task({ :import_data => :environment }) do
     blu = BluController.new
-    blu.import_data
+    blu.import_data_all
   end
 
-  desc "Continue with Blu Data"
-  task({ :blu_continue => :environment }) do
+  desc "Import data from the WHU API and add to JSON file"
+  task({ :import_data => :environment }) do
     blu = BluController.new
-    blu.blu_continue
+    blu.import_data_all
   end
+
+  desc "Import data from the BLU API and add to JSON file"
+  task({ :import_data => :environment }) do
+    blu = BluController.new
+    blu.import_data_all
+  end
+
 end
 
 namespace :db_reports do
   desc "Import data from JSON file and add it to the database"
   task({ :import_data => :environment }) do
     json = JSON.parse(File.read("new_reports.json"))
-    json.delete("iterator")
-    json.each do |id, report|
+    json["reports"].each do |id, report|
       r = Report.new(
         blu_id: report["blu_id"],
         category: report["category"],
@@ -39,7 +45,7 @@ namespace :db_reports do
       )
       pp r
       r.save!
-      if report["images"].present?
+      if report["images"].present? && r.created_at > 1.month.ago
         report["images"].each do |image|
           if image[-3..-1] == "png"
             next
@@ -68,6 +74,8 @@ namespace :db_reports do
         neighborhood: report.neighborhood,
         suburb: report.suburb,
         reporter_id: report.reporter_id,
+        images: report.images.map { |image| url_for(image) },
+        id: report.id,
       }
     end
     File.open("db_reports.json","w") do |f|

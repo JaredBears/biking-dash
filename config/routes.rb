@@ -3,16 +3,15 @@ Rails.application.routes.draw do
     namespace :v1 do
       get 'reports/index'
       post 'reports/create'
-      get 'reports/index/closest?lat=:lat&lon=:lon', to: 'reports#index'
       get '/show/:id', to: 'reports#show'
       delete '/destroy/:id', to: 'reports#destroy'
     end
   end
 
   root 'homepage#index'
-  get '/reports', to: 'homepage#index'
-  get '/report/:id', to: 'homepage#index'
-  get '/directions', to: 'homepage#index'
+  ['/reports', '/report/:id', '/directions'].each do |path|
+    get(path, { :controller => "homepage", :action => "index" })
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
