@@ -78,7 +78,7 @@ namespace :db_reports do
         id: report.id,
       }
     end
-    File.open("db_reports.json","w") do |f|
+    File.open("db_reports#{Date.today}.json","w") do |f|
       f.write(json.to_json)
     end
   end

@@ -19,7 +19,7 @@ class BluController < ApplicationController
     @geo = GeoencoderController.new
     @starting = 0
     @ending = 0
-    @new_reports = {}
+    @new_reports = {"reports" => {}, "iterator" => ""}
   end
 
   def import_data_all
@@ -39,7 +39,7 @@ class BluController < ApplicationController
     @ending = json.last.dig("properties", "id")
 
     first_index = json.find_index { |report| report.dig("properties", "id") == @starting }
-    json = json[first_index..-1]
+    json = json[(first_index+1)..-1]
     json.each do |report|
       pp "adding report #{[report.dig("properties", "id")]} to new_reports..."
       if report.dig("properties", "obstruction")[0..4] == "Other"
@@ -55,7 +55,7 @@ class BluController < ApplicationController
     end
     if Rails.env.development?
       pp "saving new_reports to json file..."
-      File.open("new_reports#{Date.Today}.json", "w") do |f|
+      File.open("new_reports#{Date.today}.json", "w") do |f|
         f.write(@new_reports.to_json)
       end
     end
@@ -63,10 +63,10 @@ class BluController < ApplicationController
 
   def import_blu_data
     continue = true
-    if new_reports["reports"].nil?
+    if @new_reports["reports"].nil?
       # read from json file
       pp "reading from json file..."
-      new_reports = JSON.parse(File.read("new_reports.json"))
+      @new_reports = JSON.parse(File.read("new_reports.json"))
     end
     iterator = @new_reports["iterator"].nil? ? "" : @new_reports["iterator"]
 
@@ -132,7 +132,7 @@ class BluController < ApplicationController
       sleep(1)
       if Rails.env.development?
         pp "saving new_reports to json file..."
-        File.open("new_reports#{Date.Today}.json", "w") do |f|
+        File.open("new_reports#{Date.today}.json", "w") do |f|
           f.write(@new_reports.to_json)
         end
       end
