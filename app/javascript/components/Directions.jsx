@@ -19,9 +19,12 @@ const Directions = () => {
     height: '75vh'
   };
 
-  const fetchClosestReports = () => {
-    const url = `/api/v1/reports/closest/${origin}`;
-    alert(url)
+  useEffect(() => {
+    fetchClosestReports("", "");
+  }, []);
+
+  const fetchClosestReports = (lat, lon) => {
+    const url = "/api/v1/reports/index";
     fetch(url)
       .then((data) => {
         if (data.ok) {
