@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get 'reports/index'
+      get 'reports/closest/:location', to: 'reports#closest'
       post 'reports/create'
       get '/show/:id', to: 'reports#show'
       delete '/destroy/:id', to: 'reports#destroy'

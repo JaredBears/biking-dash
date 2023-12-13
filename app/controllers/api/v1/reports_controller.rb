@@ -19,6 +19,19 @@ class Api::V1::ReportsController < ApplicationController
     }
   end
 
+  def closest
+    reports = Report.within(1, origin: params[:location])
+    render json: reports.map { |report|
+      {
+        "id": report.id,
+        "category": report.category,
+        "image": report.images[0].nil? ? "" : report.images[0].blob.attributes.slice("id").merge(url: url_for(report.images[0]))[:url],
+        "lat": report.lat,
+        "lon": report.lon,
+      }
+    }
+  end
+
   def create
     report = Report.create!(report_params)
     if report

@@ -10,21 +10,18 @@ const Directions = () => {
   const directionsService = new google.maps.DirectionsService();
   const [reports, setReports] = useState([]);
   const [directions, setDirections] = useState([]);
-  const [origin, setOrigin] = useState([]);
-  const [destination, setDestination] = useState([]);
-  const [center, setCenter] = useState([]);
+  const [origin, setOrigin] = useState("");
+  const [destination, setDestination] = useState("");
+  const [center, setCenter] = useState({});
 
   const containerStyle = {
     width: '75vw',
     height: '75vh'
   };
 
-  useEffect(() => {
-    fetchClosestReports("", "");
-  }, []);
-
-  const fetchClosestReports = (lat, lon) => {
-    const url = "/api/v1/reports/index";
+  const fetchClosestReports = () => {
+    const url = `/api/v1/reports/closest/${origin}`;
+    alert(url)
     fetch(url)
       .then((data) => {
         if (data.ok) {
@@ -33,7 +30,7 @@ const Directions = () => {
         throw new Error("Network response was not ok");
       })
       .then((data) => setReports(data))
-      .catch(() => navigate("/"));
+      .catch(() => navigate("/directions"));
   }
 
   const getDirections = () => {
@@ -44,6 +41,7 @@ const Directions = () => {
       provideRouteAlternatives: true
     }, (result, status) => {
       if (status === google.maps.DirectionsStatus.OK) {
+        fetchClosestReports(origin);
         setDirections(result)
       } else {
         console.error(`error fetching directions ${result}`);
@@ -60,7 +58,7 @@ const Directions = () => {
 
   const getLocation = () => {
     if (navigator.geolocation) {
-      navigator.geolocation.watchPosition(showPosition);
+      navigator.geolocation.getCurrentPosition(showPosition);
     } else {
       alert("Geolocation is not supported by this browser.");
     }
