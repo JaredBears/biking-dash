@@ -1,4 +1,10 @@
 class GeoencoderController < ApplicationController
+
+  #This controller is to interact with the geocoder api.  It will take an
+  #address and return the coordinates, or take coordinates and return the
+  #address.  This is a free service so long as I only use it less than once
+  #per second.
+
   def geo_encode(address)
     uri = URI("https://geocode.maps.co/search?q=#{address}}")
     response = Net::HTTP.get(uri)

@@ -24,7 +24,7 @@ const Directions = () => {
   }, []);
 
   const fetchClosestReports = (lat, lon) => {
-    const url = "/api/v1/reports/index/closest?lat=" + lat + "&lon=" + lon;
+    const url = "/api/v1/reports/index";
     fetch(url)
       .then((data) => {
         if (data.ok) {
