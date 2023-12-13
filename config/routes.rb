@@ -4,7 +4,7 @@ Rails.application.routes.draw do
       get 'reports/index'
       post 'reports/create'
       get '/show/:id', to: 'reports#show'
-      delete '/destroy/:id', to: 'reports#destroy'
+      #delete '/destroy/:id', to: 'reports#destroy'
     end
   end
 

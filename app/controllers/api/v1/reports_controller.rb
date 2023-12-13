@@ -20,10 +20,13 @@ class Api::V1::ReportsController < ApplicationController
   end
 
   def create
-    report = Report.create!(report_params)
+    params = report_params
+    report = Report.new(params)
+    pp report_params
+    
     if report
       if (report.lat.nil? || report.lon.nil?) && !report.address_street.nil?
-        coord = @geo.geocode(report.address_street, report.address_zip)
+        coord = @geo.geo_encode(report.address_street + " " + "Chicago, IL " + report.address_zip)
         report.lat = coord[:lat]
         report.lon = coord[:lon]
         report.save!
@@ -43,9 +46,12 @@ class Api::V1::ReportsController < ApplicationController
         report.address_zip = address_info["postcode"]
         report.neighborhood = address_info["neighbourhood"]
         report.suburb = address_info["suburb"]
+        report.description = params[:description]
         report.save!
+        pp params[:description]
+        pp report.description
+        pp report_params[:description]
       end
-        
       render json: report
     else
       render json: report.errors
@@ -71,6 +77,7 @@ class Api::V1::ReportsController < ApplicationController
         "images": @images.join("|"),
         "reporter_id": @report.reporter_id,
         "created_at": @report.created_at,
+        "description": @report.description,
   }
     else
       render json: @report.errors
@@ -85,7 +92,7 @@ class Api::V1::ReportsController < ApplicationController
   private
 
   def report_params
-    params.require(:report).permit(:category, :lat, :lon, :address_street, :address_zip, :description, :reporter_id)
+    params.require(:report).permit(:category, :lat, :lon, :address_street, :address_zip, :description, :reporter_id, :images => [])
   end
 
   def set_report
