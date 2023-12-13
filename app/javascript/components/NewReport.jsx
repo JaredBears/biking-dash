@@ -10,16 +10,19 @@ const NewReport = () => {
   const [lon, setLon] = useState("");
   const [description, setDescription] = useState("");
   const [reporter_id, setReporterId] = useState(1);
-
-  const stripHtmlEntities = (str) => {
-    return String(str)
-      .replace(/\n/g, "<br> <br>")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
-  }
+  const [images, setImages] = useState();
   
   const handleChanges = (event, setFunction) => {
     setFunction(event.target.value);
+  }
+
+  const handleImages = () => {
+    const files = document.getElementById("reportImages").files;
+    const images = [];
+    for (let i = 0; i < files.length; i++) {
+      images.push(URL.createObjectURL(files[i]));
+    }
+    setImages(images);
   }
 
   const handleSubmit = (event) => {
@@ -31,8 +34,9 @@ const NewReport = () => {
       address_zip,
       lat,
       lon,
-      description: stripHtmlEntities(description),
-      reporter_id
+      description,
+      reporter_id,
+      images
     };
     // if either lat or lon is filled in, then both must be filled in
     // if neither is filled in, then the address must be filled in
@@ -154,6 +158,17 @@ const NewReport = () => {
                 name="description"
                 rows="5"
                 onChange={(event) => handleChanges(event, setDescription)}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="reportImages">Images</label>
+              <input
+                type="file"
+                name="images"
+                id="reportImages"
+                className="form-control"
+                multiple
+                onChange={(event) => handleImages()}
               />
             </div>
             <input
