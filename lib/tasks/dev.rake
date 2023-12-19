@@ -8,6 +8,9 @@ end
 namespace :blu do
   desc "Import data from the BLU API and WHU API and add it to the database"
   task({ :import_data => :environment }) do
+    # Controllers are for handling web requests
+    # This should be a service object
+    # https://www.toptal.com/ruby-on-rails/rails-service-objects-tutorial
     blu = BluController.new
     blu.import_data_all
   end

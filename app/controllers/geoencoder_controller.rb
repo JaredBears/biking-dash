@@ -1,3 +1,6 @@
+# Same here
+# https://www.toptal.com/ruby-on-rails/rails-service-objects-tutorial
+
 class GeoencoderController < ApplicationController
 
   #This controller is to interact with the geocoder api.  It will take an
