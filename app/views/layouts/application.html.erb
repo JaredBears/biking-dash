@@ -4,16 +4,7 @@
     <title>Chicago Bike Dashboard</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
-
-    <%# I suggest removing these includes if they are not needed %>
-    <%# Might still want to have a home page to remind dev to setup React %>
-
-    <%# The asset "application.css" is not present in the asset pipeline. %>
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-
-    <%# The asset "application.js" is not present in the asset pipeline. %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+    
     <%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?libraries=places&key=#{Rails.application.credentials.google_maps_key}" %>
 
   </head>
