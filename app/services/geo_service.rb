@@ -1,15 +1,16 @@
-# Same here
-# https://www.toptal.com/ruby-on-rails/rails-service-objects-tutorial
+class GeoService
 
-class GeoencoderController < ApplicationController
-
-  #This controller is to interact with the geocoder api.  It will take an
+  #This service is to interact with the geocode api.  It will take an
   #address and return the coordinates, or take coordinates and return the
   #address.  This is a free service so long as I only use it less than once
   #per second.
 
+  def initialize
+    @base_url = "https://geocode.maps.co/"
+  end
+
   def geo_encode(address)
-    uri = URI("https://geocode.maps.co/search?q=#{address}")
+    uri = URI("#{@base_url}search?q=#{address}")
     pp uri
     response = Net::HTTP.get(uri)
     pp response
@@ -23,7 +24,7 @@ class GeoencoderController < ApplicationController
   end
 
   def reverse_geo(lat, lon)
-    uri = URI("https://geocode.maps.co/reverse?lat=#{lat}&lon=#{lon}")
+    uri = URI("#{@base_url}reverse?lat=#{lat}&lon=#{lon}")
     response = Net::HTTP.get(uri)
     json = JSON.parse(response)
     address = json["address"]
