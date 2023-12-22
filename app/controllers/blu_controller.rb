@@ -1,3 +1,7 @@
+# I think this should be refactored into separate white house uprising and bike lane uprising "service objects"
+# That way your controllers can stay lean
+# https://www.toptal.com/ruby-on-rails/rails-service-objects-tutorial
+
 class BluController < ApplicationController
 
   #This controller is to coordinate with the different endpoints for the blu

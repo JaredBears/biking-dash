@@ -1,3 +1,5 @@
+<!-- Usually better to just have app name as title -->
+# Chicago Bike Dashboard
 # README
 
 This is a React on Rails Web Application.
@@ -21,10 +23,14 @@ This site collects reports from public records and crowdsourcing in order to imp
 * Create Database: `rails db:create db:migrate`
 * Import Starting Data: `rake db_reports:import_data`
 
+<!-- Needed quite a bit more to get running on my machine -->
+<!-- I suggest adding a start script so you can just run `yarn start` to start frontend -->
+
 ## Setup and Useful Info
 
 * While using this app locally in a dev environment, images are saved locally.  If you would like to change this, configure the `config/environments/development.rb` file and change the line `config.active_storage.service = :local` to point to your desired service.  (set up services in `config/storage.yaml`) 
 
+<!-- You don't want to do this each time. Credentials should be reset once, tracked in git and shared (keep the key to yourself) -->
 * Delete the `credentials.yml.enc`` file and run `bin/rails credentials:edit` or `EDITOR="code --wait" bin/rails credentials:edit`  (Note to DPI Team Members: Reach out to me through the usual form of contact and I'll send you my master.key file so you can use the same credentials)
 
 * You will need to sign up for Cloudinary (production only) and Google Maps (dev and production), as well as set up a Postgres database (production only)
